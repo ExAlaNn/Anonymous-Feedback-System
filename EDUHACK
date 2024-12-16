@@ -1,0 +1,49 @@
+import os
+
+# File to store feedback
+FEEDBACK_FILE = "feedback.txt"
+
+def display_menu():
+    print("\n--- School Feedback System ---")
+    print("1. Submit Feedback")
+    print("2. View Feedback (Admin)")
+    print("3. Exit")
+    return input("Choose an option: ")
+
+def submit_feedback():
+    print("\n--- Submit Feedback ---")
+    feedback = input("Enter your feedback anonymously: ").strip()
+    if feedback:
+        with open(FEEDBACK_FILE, "a") as file:
+            file.write(feedback + "\n")
+        print("Thank you for your feedback!")
+    else:
+        print("Feedback cannot be empty.")
+
+def view_feedback():
+    print("\n--- View Feedback ---")
+    if os.path.exists(FEEDBACK_FILE):
+        with open(FEEDBACK_FILE, "r") as file:
+            feedbacks = file.readlines()
+            if feedbacks:
+                print("\n".join([f"{idx + 1}. {fb.strip()}" for idx, fb in enumerate(feedbacks)]))
+            else:
+                print("No feedback available yet.")
+    else:
+        print("No feedback available yet.")
+
+def main():
+    while True:
+        choice = display_menu()
+        if choice == "1":
+            submit_feedback()
+        elif choice == "2":
+            view_feedback()
+        elif choice == "3":
+            print("Exiting... Have a great day!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
